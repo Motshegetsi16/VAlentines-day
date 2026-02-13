@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For My Pumpkin 💌</title>
+<style>
+body {
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f9c5d1; /* soft pink scrapbook base */
+  background-image: radial-gradient(#ffffff55 1px, transparent 1px);
+  background-size: 20px 20px; /* subtle paper texture dots */
+  font-family: 'Georgia', serif;
+  overflow: hidden;
+}
+
+/* Envelope */
+.envelope {
+  position: relative;
+  width: 320px;
+  height: 200px;
+  background: #fff;
+  box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+  cursor: pointer;
+  transition: transform 0.4s ease;
+  border-radius: 4px;
+}
+
+.envelope:hover {
+  transform: scale(1.05);
+}
+
+/* Flap */
+.flap {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: #f7dfe6;
+  clip-path: polygon(0 0, 100% 0, 50% 60%);
+  transform-origin: top;
+  transition: transform 0.8s ease;
+}
+
+/* Letter */
+.letter {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%) translateY(100%);
+  width: 280px;
+  height: 300px;
+  background: #fffdf8;
+  padding: 20px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  border: 2px dashed #e8aeb7;
+  transition: transform 1s ease, opacity 1s ease;
+  text-align: center;
+  opacity: 0;
+  border-radius: 6px;
+}
+
+.letter h2 {
+  margin-top: 0;
+}
+
+.open .flap {
+  transform: rotateX(180deg);
+}
+
+.open .letter {
+  transform: translateX(-50%) translateY(-50px);
+  opacity: 1;
+}
+
+.tap-text {
+  position: absolute;
+  bottom: -40px;
+  width: 100%;
+  text-align: center;
+  font-size: 14px;
+  color: #7a4f58;
+}
+
+/* Floating Hearts */
+.heart {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: #ff4d6d;
+  transform: rotate(-45deg);
+  animation: floatUp 6s linear infinite;
+}
+
+.heart:before,
+.heart:after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: #ff4d6d;
+  border-radius: 50%;
+}
+
+.heart:before { top: -10px; left: 0; }
+.heart:after { left: 10px; top: 0; }
+
+/* Balloons */
+.balloon {
+  position: absolute;
+  width: 30px;
+  height: 40px;
+  background: #ff8fab;
+  border-radius: 50% 50% 45% 45%;
+  animation: floatUp 8s linear infinite;
+}
+
+.balloon:after {
+  content: '';
+  position: absolute;
+  width: 2px;
+  height: 40px;
+  background: #555;
+  top: 40px;
+  left: 50%;
+}
+
+@keyframes floatUp {
+  0% { transform: translateY(100vh); opacity: 0; }
+  10% { opacity: 1; }
+  100% { transform: translateY(-120px); opacity: 0; }
+}
+</style>
+</head>
+<body>
+
+<div class="envelope" onclick="openEnvelope(this)">
+  <div class="flap"></div>
+  <div class="letter">
+    <h2>Pumpkin 💌</h2>
+    <p>
+      In English they say, "I love you."<br><br>
+      But in my heart, I say,<br>
+      "You are my safest place."<br><br>
+      Loving you has been peaceful, intentional,
+      and full of grace. You make me feel
+      chosen, protected, and deeply valued.<br><br>
+      I don't just love you — I respect you.
+      And with God at the center of us,
+      I choose you. Always.
+    </p>
+  </div>
+  <div class="tap-text">Tap to open 💗</div>
+</div>
+
+<script>
+function openEnvelope(el) {
+  el.classList.toggle('open');
+}
+
+// Generate floating hearts and balloons
+for (let i = 0; i < 6; i++) {
+  let heart = document.createElement('div');
+  heart.className = 'heart';
+  heart.style.left = Math.random() * 100 + 'vw';
+  heart.style.animationDelay = Math.random() * 6 + 's';
+  document.body.appendChild(heart);
+}
+
+for (let i = 0; i < 4; i++) {
+  let balloon = document.createElement('div');
+  balloon.className = 'balloon';
+  balloon.style.left = Math.random() * 100 + 'vw';
+  balloon.style.animationDelay = Math.random() * 8 + 's';
+  document.body.appendChild(balloon);
+}
+</script>
+
+</body>
+</html>
