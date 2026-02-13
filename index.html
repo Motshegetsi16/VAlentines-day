@@ -11,14 +11,13 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #f9c5d1; /* soft pink scrapbook base */
+  background: #f9c5d1;
   background-image: radial-gradient(#ffffff55 1px, transparent 1px);
-  background-size: 20px 20px; /* subtle paper texture dots */
+  background-size: 20px 20px;
   font-family: 'Georgia', serif;
   overflow: hidden;
 }
 
-/* Envelope */
 .envelope {
   position: relative;
   width: 320px;
@@ -29,12 +28,7 @@ body {
   transition: transform 0.4s ease;
   border-radius: 4px;
 }
-
-.envelope:hover {
-  transform: scale(1.05);
-}
-
-/* Flap */
+.envelope:hover { transform: scale(1.05); }
 .flap {
   position: absolute;
   width: 100%;
@@ -44,8 +38,6 @@ body {
   transform-origin: top;
   transition: transform 0.8s ease;
 }
-
-/* Letter */
 .letter {
   position: absolute;
   bottom: 0;
@@ -59,32 +51,13 @@ body {
   border: 2px dashed #e8aeb7;
   transition: transform 1s ease, opacity 1s ease;
   text-align: center;
-  opacity: 0;
   border-radius: 6px;
+  overflow-y: auto;
 }
-
-.letter h2 {
-  margin-top: 0;
-}
-
-.open .flap {
-  transform: rotateX(180deg);
-}
-
-.open .letter {
-  transform: translateX(-50%) translateY(-50px);
-  opacity: 1;
-}
-
-.tap-text {
-  position: absolute;
-  bottom: -40px;
-  width: 100%;
-  text-align: center;
-  font-size: 14px;
-  color: #7a4f58;
-}
-
+.letter h2 { margin-top: 0; }
+.open .flap { transform: rotateX(180deg); }
+.open .letter { transform: translateX(-50%) translateY(-50px); opacity: 1; }
+.tap-text { position: absolute; bottom: -40px; width: 100%; text-align: center; font-size: 14px; color: #7a4f58; }
 /* Floating Hearts */
 .heart {
   position: absolute;
@@ -94,9 +67,7 @@ body {
   transform: rotate(-45deg);
   animation: floatUp 6s linear infinite;
 }
-
-.heart:before,
-.heart:after {
+.heart:before, .heart:after {
   content: '';
   position: absolute;
   width: 20px;
@@ -104,10 +75,8 @@ body {
   background: #ff4d6d;
   border-radius: 50%;
 }
-
 .heart:before { top: -10px; left: 0; }
 .heart:after { left: 10px; top: 0; }
-
 /* Balloons */
 .balloon {
   position: absolute;
@@ -117,22 +86,8 @@ body {
   border-radius: 50% 50% 45% 45%;
   animation: floatUp 8s linear infinite;
 }
-
-.balloon:after {
-  content: '';
-  position: absolute;
-  width: 2px;
-  height: 40px;
-  background: #555;
-  top: 40px;
-  left: 50%;
-}
-
-@keyframes floatUp {
-  0% { transform: translateY(100vh); opacity: 0; }
-  10% { opacity: 1; }
-  100% { transform: translateY(-120px); opacity: 0; }
-}
+.balloon:after { content: ''; position: absolute; width: 2px; height: 40px; background: #555; top: 40px; left: 50%; }
+@keyframes floatUp { 0% { transform: translateY(100vh); opacity: 0; } 10% { opacity: 1; } 100% { transform: translateY(-120px); opacity: 0; } }
 </style>
 </head>
 <body>
@@ -141,17 +96,7 @@ body {
   <div class="flap"></div>
   <div class="letter">
     <h2>Pumpkin 💌</h2>
-    <p>
-      In English they say, "I love you."<br><br>
-      But in my heart, I say,<br>
-      "You are my safest place."<br><br>
-      Loving you has been peaceful, intentional,
-      and full of grace. You make me feel
-      chosen, protected, and deeply valued.<br><br>
-      I don't just love you — I respect you.
-      And with God at the center of us,
-      I choose you. Always.
-    </p>
+    <p id="loveLetter"></p>
   </div>
   <div class="tap-text">Tap to open 💗</div>
 </div>
@@ -159,23 +104,50 @@ body {
 <script>
 function openEnvelope(el) {
   el.classList.toggle('open');
+  if(el.classList.contains('open')) {
+    typeLetter();
+  }
 }
 
-// Generate floating hearts and balloons
-for (let i = 0; i < 6; i++) {
-  let heart = document.createElement('div');
-  heart.className = 'heart';
-  heart.style.left = Math.random() * 100 + 'vw';
-  heart.style.animationDelay = Math.random() * 6 + 's';
+// Floating hearts and balloons
+for (let i=0;i<6;i++){
+  let heart=document.createElement('div');
+  heart.className='heart';
+  heart.style.left=Math.random()*100+'vw';
+  heart.style.animationDelay=Math.random()*6+'s';
   document.body.appendChild(heart);
 }
-
-for (let i = 0; i < 4; i++) {
-  let balloon = document.createElement('div');
-  balloon.className = 'balloon';
-  balloon.style.left = Math.random() * 100 + 'vw';
-  balloon.style.animationDelay = Math.random() * 8 + 's';
+for (let i=0;i<4;i++){
+  let balloon=document.createElement('div');
+  balloon.className='balloon';
+  balloon.style.left=Math.random()*100+'vw';
+  balloon.style.animationDelay=Math.random()*8+'s';
   document.body.appendChild(balloon);
+}
+
+// Typing animation
+const fullLetter = `In English they say, "I love you." But in my heart, I feel something so much deeper ,something words can barely hold. Loving you has been the most peaceful, intentional, and beautiful journey of my life. You make me feel seen, chosen, protected, and endlessly cherished.
+
+I still remember the first time we met, the way your eyes sparkled when you smiled, and every quiet moment we’ve shared that felt like the world stopped just for us. Every hug, every look, every little gesture has built this love that feels sacred and unshakable.
+
+You inspire me , your faith, your strength, your heart , all of it makes me want to be the best version of myself. I respect you, I admire you, and I love you in ways I never thought possible. You are my calm in the chaos, my answer to prayers, and the one I want to walk with through everything life throws at us.
+
+Even when things aren’t perfect, loving you is effortless. Every day with you is a gift I never want to take for granted. I promise to choose you, support you, and laugh with you, always. I love you more than words can carry, deeper than the oceans, higher than the stars, and longer than time itself.
+
+Happy Valentine’s Day, my baby ❤️`;
+
+function typeLetter() {
+  const el = document.getElementById('loveLetter');
+  el.textContent='';
+  let i=0;
+  function type(){
+    if(i<fullLetter.length){
+      el.textContent += fullLetter.charAt(i);
+      i++;
+      setTimeout(type, 25);
+    }
+  }
+  type();
 }
 </script>
 
