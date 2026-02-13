@@ -19,11 +19,10 @@ body {
   flex-direction: column;
 }
 
-/* Envelope container */
 .envelope-container {
   position: relative;
   width: 320px;
-  height: 200px;
+  height: 220px;
 }
 
 /* Envelope base */
@@ -43,10 +42,11 @@ body {
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
+  height: 50%;
   background: #f7dfe6;
-  clip-path: polygon(0 0, 100% 0, 50% 50%);
+  clip-path: polygon(0 100%, 50% 0, 100% 100%);
   transform-origin: top center;
+  transform: rotateX(0deg);
   transition: transform 0.8s ease;
   z-index: 2;
 }
@@ -54,9 +54,9 @@ body {
 /* Letter */
 .letter {
   position: absolute;
-  bottom: 0;
+  top: 0;
   left: 50%;
-  transform: translateX(-50%) translateY(100%);
+  transform: translateX(-50%) translateY(-100%);
   width: 280px;
   max-height: 300px;
   background: #fffdf8;
@@ -64,20 +64,20 @@ body {
   box-shadow: 0 10px 25px rgba(0,0,0,0.2);
   border: 2px dashed #e8aeb7;
   border-radius: 6px;
-  transition: transform 1s ease, opacity 1s ease;
   text-align: left;
   overflow-y: auto;
   z-index: 1;
 }
-.letter h2 { margin-top: 0; text-align: center; }
+.letter h2 { text-align: center; margin-top: 0; }
 
 /* Open state */
 .open .flap {
-  transform: rotateX(180deg);
+  transform: rotateX(-180deg);
 }
 .open .letter {
-  transform: translateX(-50%) translateY(-50px);
+  transform: translateX(-50%) translateY(20px);
   opacity: 1;
+  transition: transform 1s ease, opacity 1s ease;
 }
 
 /* Tap text */
@@ -119,15 +119,6 @@ body {
 .balloon:after { content: ''; position: absolute; width: 2px; height: 40px; background: #555; top: 40px; left: 50%; }
 
 @keyframes floatUp { 0% { transform: translateY(100vh); opacity: 0; } 10% { opacity: 1; } 100% { transform: translateY(-120px); opacity: 0; } }
-
-/* Flap subtle breathing */
-.flap-breathe {
-  animation: flapBreathe 2s ease-in-out infinite alternate;
-}
-@keyframes flapBreathe {
-  0% { transform: rotateX(0deg); }
-  100% { transform: rotateX(5deg); }
-}
 </style>
 </head>
 <body>
@@ -158,16 +149,20 @@ function openEnvelope(el){
   const flap = document.getElementById('flap');
   el.classList.toggle('open');
   if(el.classList.contains('open')){
-    flap.classList.add('flap-breathe');
     letter.textContent = '';
     let i = 0;
     function type(){ if(i<fullLetter.length){ letter.textContent += fullLetter.charAt(i); i++; setTimeout(type, 25); } }
     type();
-    // Close envelope after 25 seconds
-    setTimeout(()=>{
-      el.classList.remove('open');
-      flap.classList.remove('flap-breathe');
-    }, 25000);
+    // flap subtle sway while open
+    flap.style.transition = 'transform 0.8s ease';
+    let sway = true;
+    const swayInterval = setInterval(()=>{
+      if(!el.classList.contains('open')){ clearInterval(swayInterval); flap.style.transform='rotateX(0deg)'; return; }
+      flap.style.transform = sway ? 'rotateX(-170deg)' : 'rotateX(-180deg)';
+      sway = !sway;
+    }, 500);
+    // close envelope after 25 seconds
+    setTimeout(()=>{ el.classList.remove('open'); flap.style.transform='rotateX(0deg)'; }, 25000);
   }
 }
 
