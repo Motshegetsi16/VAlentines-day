@@ -17,168 +17,53 @@ body {
   font-family: 'Georgia', serif;
   overflow: hidden;
   flex-direction: column;
-}
-
-.envelope-container {
-  position: relative;
-  width: 320px;
-  height: 220px;
-}
-
-/* Envelope base */
-.envelope {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  background: #fff;
-  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-  border-radius: 4px;
-  overflow: hidden;
-}
-
-/* Flap */
-.flap {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 50%;
-  background: #f7dfe6;
-  clip-path: polygon(0 100%, 50% 0, 100% 100%);
-  transform-origin: top center;
-  transform: rotateX(0deg);
-  transition: transform 0.8s ease;
-  z-index: 2;
-}
-
-/* Letter */
-.letter {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%) translateY(-100%);
-  width: 280px;
-  max-height: 300px;
-  background: #fffdf8;
   padding: 20px;
+}
+
+.letter {
+  width: 90%;
+  max-width: 600px;
+  background: #fffdf8;
+  padding: 30px;
   box-shadow: 0 10px 25px rgba(0,0,0,0.2);
   border: 2px dashed #e8aeb7;
-  border-radius: 6px;
+  border-radius: 10px;
   text-align: left;
   overflow-y: auto;
-  z-index: 1;
+  font-size: 16px;
+  line-height: 1.6;
 }
 .letter h2 { text-align: center; margin-top: 0; }
-
-/* Open state */
-.open .flap {
-  transform: rotateX(-180deg);
-}
-.open .letter {
-  transform: translateX(-50%) translateY(20px);
-  opacity: 1;
-  transition: transform 1s ease, opacity 1s ease;
-}
-
-/* Tap text */
-.tap-text {
-  margin-top: 20px;
-  font-size: 14px;
-  color: #7a4f58;
-}
-
-/* Floating Hearts */
-.heart {
-  position: absolute;
-  width: 20px;
-  height: 20px;
-  background: #ff4d6d;
-  transform: rotate(-45deg);
-  animation: floatUp 6s linear infinite;
-}
-.heart:before, .heart:after {
-  content: '';
-  position: absolute;
-  width: 20px;
-  height: 20px;
-  background: #ff4d6d;
-  border-radius: 50%;
-}
-.heart:before { top: -10px; left: 0; }
-.heart:after { left: 10px; top: 0; }
-
-/* Balloons */
-.balloon {
-  position: absolute;
-  width: 30px;
-  height: 40px;
-  background: #ff8fab;
-  border-radius: 50% 50% 45% 45%;
-  animation: floatUp 8s linear infinite;
-}
-.balloon:after { content: ''; position: absolute; width: 2px; height: 40px; background: #555; top: 40px; left: 50%; }
-
-@keyframes floatUp { 0% { transform: translateY(100vh); opacity: 0; } 10% { opacity: 1; } 100% { transform: translateY(-120px); opacity: 0; } }
 </style>
 </head>
 <body>
 
-<div class="envelope-container">
-  <div class="envelope" id="envelope" onclick="openEnvelope(this)">
-    <div class="flap" id="flap"></div>
-    <div class="letter" id="loveLetter">
-      <h2>Pumpkin 💌</h2>
-    </div>
-  </div>
-  <div class="tap-text">Tap to open 💗</div>
+<div class="letter" id="loveLetter">
+  <h2>Pumpkin 💌</h2>
 </div>
 
 <script>
-const fullLetter = `In English they say, "I love you." But in my heart, I feel something so much deeper — something words can barely hold. Loving you has been the most peaceful, intentional, and beautiful journey of my life. You make me feel seen, chosen, protected, and endlessly cherished.
+const fullLetter = `In English they say, "I love you." But in my heart, I feel something so much deeper, something words can barely hold. Loving you has been the most peaceful, intentional, and beautiful journey of my life. You make me feel seen, chosen, protected, and endlessly cherished.
 
 I still remember the first time we met, the way your eyes sparkled when you smiled, and every quiet moment we’ve shared that felt like the world stopped just for us. Every hug, every look, every little gesture has built this love that feels sacred and unshakable.
 
-You inspire me — your faith, your strength, your heart — all of it makes me want to be the best version of myself. I respect you, I admire you, and I love you in ways I never thought possible. You are my calm in the chaos, my answer to prayers, and the one I want to walk with through everything life throws at us.
+You inspire me ,your faith, your strength, your heart — all of it makes me want to be the best version of myself. I respect you, I admire you, and I love you in ways I never thought possible. You are my calm in the chaos, my answer to prayers, and the one I want to walk with through everything life throws at us.
 
 Even when things aren’t perfect, loving you is effortless. Every day with you is a gift I never want to take for granted. I promise to choose you, support you, and laugh with you, always. I love you more than words can carry, deeper than the oceans, higher than the stars, and longer than time itself.
 
 Happy Valentine’s Day, my baby ❤️`;
 
-function openEnvelope(el){
-  const letter = document.getElementById('loveLetter');
-  const flap = document.getElementById('flap');
-  el.classList.toggle('open');
-  if(el.classList.contains('open')){
-    letter.textContent = '';
-    let i = 0;
-    function type(){ if(i<fullLetter.length){ letter.textContent += fullLetter.charAt(i); i++; setTimeout(type, 25); } }
-    type();
-    // flap subtle sway while open
-    flap.style.transition = 'transform 0.8s ease';
-    let sway = true;
-    const swayInterval = setInterval(()=>{
-      if(!el.classList.contains('open')){ clearInterval(swayInterval); flap.style.transform='rotateX(0deg)'; return; }
-      flap.style.transform = sway ? 'rotateX(-170deg)' : 'rotateX(-180deg)';
-      sway = !sway;
-    }, 500);
-    // close envelope after 25 seconds
-    setTimeout(()=>{ el.classList.remove('open'); flap.style.transform='rotateX(0deg)'; }, 25000);
+// Typing animation
+const letterEl = document.getElementById('loveLetter');
+let i = 0;
+function typeLetter(){
+  if(i < fullLetter.length){
+    letterEl.textContent += fullLetter.charAt(i);
+    i++;
+    setTimeout(typeLetter, 25);
   }
 }
-
-// Hearts & Balloons
-for(let i=0;i<6;i++){
-  let heart=document.createElement('div'); heart.className='heart';
-  heart.style.left=Math.random()*100+'vw';
-  heart.style.animationDelay=Math.random()*6+'s';
-  document.body.appendChild(heart);
-}
-for(let i=0;i<4;i++){
-  let balloon=document.createElement('div'); balloon.className='balloon';
-  balloon.style.left=Math.random()*100+'vw';
-  balloon.style.animationDelay=Math.random()*8+'s';
-  document.body.appendChild(balloon);
-}
+typeLetter();
 </script>
 
 </body>
