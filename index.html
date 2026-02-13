@@ -12,11 +12,8 @@ body {
   justify-content: center;
   align-items: center;
   background: #f9c5d1;
-  background-image: radial-gradient(#ffffff55 1px, transparent 1px);
-  background-size: 20px 20px;
   font-family: 'Georgia', serif;
   overflow: hidden;
-  flex-direction: column;
   padding: 20px;
 }
 
@@ -37,17 +34,19 @@ body {
 }
 .letter h2 { text-align: center; margin-top: 0; }
 
-/* Floating Hearts */
-.heart, .balloon, .flower, .infinity {
-  position: absolute;
-  z-index: 1;
+/* Floating elements */
+.floating {
+  position: fixed;
+  display: block;
   animation: floatUp 8s linear infinite;
+  opacity: 0;
 }
 .heart {
   width: 20px;
   height: 20px;
   background: #ff4d6d;
   transform: rotate(-45deg);
+  border-radius: 50% 50% 0 0;
 }
 .heart:before, .heart:after {
   content: '';
@@ -128,17 +127,16 @@ function typeLetter(){
 }
 typeLetter();
 
-// Create floating hearts, balloons, flowers, infinity symbols
-function createFloating(type, count){
+// Create floating elements
+function createFloating(className,count){
   for(let i=0;i<count;i++){
     let el=document.createElement('div');
-    el.className=type;
+    el.className = className + ' floating';
     el.style.left=Math.random()*100+'vw';
     el.style.animationDelay=Math.random()*8+'s';
     document.body.appendChild(el);
   }
 }
-
 createFloating('heart',6);
 createFloating('balloon',4);
 createFloating('flower',5);
