@@ -32,8 +32,71 @@ body {
   overflow-y: auto;
   font-size: 16px;
   line-height: 1.6;
+  position: relative;
+  z-index: 10;
 }
 .letter h2 { text-align: center; margin-top: 0; }
+
+/* Floating Hearts */
+.heart, .balloon, .flower, .infinity {
+  position: absolute;
+  z-index: 1;
+  animation: floatUp 8s linear infinite;
+}
+.heart {
+  width: 20px;
+  height: 20px;
+  background: #ff4d6d;
+  transform: rotate(-45deg);
+}
+.heart:before, .heart:after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: #ff4d6d;
+  border-radius: 50%;
+}
+.heart:before { top: -10px; left: 0; }
+.heart:after { left: 10px; top: 0; }
+
+.balloon {
+  width: 30px;
+  height: 40px;
+  background: #ff8fab;
+  border-radius: 50% 50% 45% 45%;
+}
+.balloon:after {
+  content: '';
+  position: absolute;
+  width: 2px;
+  height: 40px;
+  background: #555;
+  top: 40px;
+  left: 50%;
+}
+
+.flower {
+  width: 20px;
+  height: 20px;
+  background: pink;
+  border-radius: 50%;
+  box-shadow: 5px 0 0 pink, -5px 0 0 pink, 0 5px 0 pink, 0 -5px 0 pink;
+}
+
+.infinity {
+  width: 25px;
+  height: 15px;
+  border: 2px solid #ffb347;
+  border-radius: 50%;
+  transform: rotate(45deg);
+}
+
+@keyframes floatUp {
+  0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+  10% { opacity: 1; }
+  100% { transform: translateY(-150px) rotate(360deg); opacity: 0; }
+}
 </style>
 </head>
 <body>
@@ -43,11 +106,11 @@ body {
 </div>
 
 <script>
-const fullLetter = `In English they say, "I love you." But in my heart, I feel something so much deeper, something words can barely hold. Loving you has been the most peaceful, intentional, and beautiful journey of my life. You make me feel seen, chosen, protected, and endlessly cherished.
+const fullLetter = `In English they say, "I love you." But in my heart, I feel something so much deeper — something words can barely hold. Loving you has been the most peaceful, intentional, and beautiful journey of my life. You make me feel seen, chosen, protected, and endlessly cherished.
 
 I still remember the first time we met, the way your eyes sparkled when you smiled, and every quiet moment we’ve shared that felt like the world stopped just for us. Every hug, every look, every little gesture has built this love that feels sacred and unshakable.
 
-You inspire me ,your faith, your strength, your heart — all of it makes me want to be the best version of myself. I respect you, I admire you, and I love you in ways I never thought possible. You are my calm in the chaos, my answer to prayers, and the one I want to walk with through everything life throws at us.
+You inspire me — your faith, your strength, your heart — all of it makes me want to be the best version of myself. I respect you, I admire you, and I love you in ways I never thought possible. You are my calm in the chaos, my answer to prayers, and the one I want to walk with through everything life throws at us.
 
 Even when things aren’t perfect, loving you is effortless. Every day with you is a gift I never want to take for granted. I promise to choose you, support you, and laugh with you, always. I love you more than words can carry, deeper than the oceans, higher than the stars, and longer than time itself.
 
@@ -64,6 +127,22 @@ function typeLetter(){
   }
 }
 typeLetter();
+
+// Create floating hearts, balloons, flowers, infinity symbols
+function createFloating(type, count){
+  for(let i=0;i<count;i++){
+    let el=document.createElement('div');
+    el.className=type;
+    el.style.left=Math.random()*100+'vw';
+    el.style.animationDelay=Math.random()*8+'s';
+    document.body.appendChild(el);
+  }
+}
+
+createFloating('heart',6);
+createFloating('balloon',4);
+createFloating('flower',5);
+createFloating('infinity',3);
 </script>
 
 </body>
